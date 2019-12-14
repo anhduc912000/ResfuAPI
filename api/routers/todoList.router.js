@@ -15,8 +15,8 @@ module.exports = function(app){
     //search
     app.route('/search/:searchText').get(todoList.search_a_task);
     //paginate
-    app.route('/tasks-paginate/:qtt/:pageIdx').get(todoList.get_task)
+    app.route('/tasks-paginate/:qtt/:pageIdx').get(todoList.get_task_paginate)
     //search pagination
-    app.route('/search-paginate/:textSearch/:qtt/:pageIdx').get(todoList.search_pagination)
+    app.route('/search-paginate/:textSearch/:qtt/:pageIdx').get(todoList.get_search_pagination)
     
 };

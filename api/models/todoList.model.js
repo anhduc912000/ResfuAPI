@@ -1,3 +1,6 @@
+'use strict';
+
+
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
@@ -18,6 +21,6 @@ var TaskSchema = new Schema({
     default: ['chua xong']
   }
 });
-TaskSchema.index({ '$**': "text" } )
+TaskSchema.index( { '$**': "text" } )
 
 module.exports = mongoose.model('Tasks', TaskSchema);

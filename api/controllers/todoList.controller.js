@@ -1,6 +1,6 @@
-'use strict'
+'use strict';
 
-var mongoose = require('mongoose');
+var mongoose = require('mongoose'),
     Task = mongoose.model('Tasks');
 
 // pagination method
@@ -61,8 +61,16 @@ const searchOrders = async function(textSearch, qtt, pageIdx, cb){
 
 }
 
+exports.list_all_tasks = function (req, res) {
+    Task.find({}, function (err, task) { // call back function biến code jav trở thành lần lượt,  theo trình tự có thể dùng asyne await hoặc function* yeil trong es 6 và có thể dùng promise then ==> đồng bộ ss java và javascript mẹo trong es6 
+      if (err)
+        res.send(err);
+      res.json(task);
+    });
+  };
+   
 exports.create_a_task = function(req, res){
-    let new_task = new Task(req.body);
+    var new_task = new Task(req.body);
     new_task.save(function( err, task){
         if(err)
             res.send(err);
@@ -98,7 +106,7 @@ exports.delete_a_task = function( req, res){
 
 exports.search_a_task = function(req, res){
     Task.find({
-        name:{ $regex: req.params.textSearch, $option: 'i'}
+        name: { $regex: req.params.searchText, $options: 'i' }
         // $text: {$search: req.params.textSearch}
     }, function(err, task){
         if(err)
@@ -107,7 +115,7 @@ exports.search_a_task = function(req, res){
     })
 }
 
-exports.get_task_paginate = function(res, res){
+exports.get_task_paginate = function(req, res){
     let qttConvert = parseInt(req.params.qtt, 10),
         pageIdxConvert = parseInt(req.params.pageIdx, 10),
         qtt = isNaN(qttConvert) || qttConvert <= 0 ? 1 : qttConvert,
